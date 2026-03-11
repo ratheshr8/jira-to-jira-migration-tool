@@ -1,0 +1,7 @@
+httpx
+psycopg[binary]
+pydantic
+pydantic-settings
+rich
+tenacity
+typer

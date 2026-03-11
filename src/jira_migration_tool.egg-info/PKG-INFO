@@ -1,3 +1,17 @@
+Metadata-Version: 2.4
+Name: jira-migration-tool
+Version: 0.1.0
+Summary: Resumable Jira Cloud project migration tool with Postgres-backed checkpoints.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: httpx
+Requires-Dist: psycopg[binary]
+Requires-Dist: pydantic
+Requires-Dist: pydantic-settings
+Requires-Dist: rich
+Requires-Dist: tenacity
+Requires-Dist: typer
+
 # Jira Migration Tool
 
 Postgres-backed Jira Cloud migration CLI for moving a project from one Jira account/site to another with resumable checkpoints.
@@ -7,8 +21,6 @@ Postgres-backed Jira Cloud migration CLI for moving a project from one Jira acco
 - Issues
 - Comments
 - Attachments
-- Filters (best effort)
-- Dashboards (best effort, including gadget copy where possible)
 - Current status, using an explicit status mapping
 - Basic issue metadata such as summary, description, labels, priority, issue type, due date, and assignee where possible
 
@@ -77,12 +89,6 @@ Run migration:
 
 ```bash
 jira-migrator migrate-project --source-project ABC --target-project XYZ
-
-jira-migrator migrate-project --source-project ABC --target-project XYZ --skip-migrated
-
-jira-migrator migrate-filters --source-project ABC --target-project XYZ --skip-migrated
-
-jira-migrator migrate-dashboards --source-project ABC --target-project XYZ --skip-migrated
 ```
 
 Export a source project summary for planning:
@@ -112,9 +118,6 @@ Create `mapping.json`:
   },
   "priorities": {
     "Highest": "High"
-  },
-  "project_keys": {
-    "ABC": "XYZ"
   }
 }
 ```
@@ -126,4 +129,3 @@ Then set `JIRA_MAPPING_FILE=./mapping.json` in `.env`.
 - Source and target are assumed to be Jira Cloud sites.
 - The tool is resumable. Re-running it will skip already migrated records stored in Postgres.
 - Attachments are downloaded from source and streamed to target one by one to avoid large local staging.
-- Filter/dashboard migration is best effort: share permissions and some gadget configs may still require manual fixes in target Jira.

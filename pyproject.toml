@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jira-migration-tool"
+version = "0.1.0"
+description = "Resumable Jira Cloud project migration tool with Postgres-backed checkpoints."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx",
+  "psycopg[binary]",
+  "pydantic",
+  "pydantic-settings",
+  "rich",
+  "tenacity",
+  "typer",
+]
+
+[project.scripts]
+jira-migrator = "jira_migrator.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

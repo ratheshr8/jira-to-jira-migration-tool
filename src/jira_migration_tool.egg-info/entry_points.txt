@@ -1,0 +1,2 @@
+[console_scripts]
+jira-migrator = jira_migrator.cli:app
